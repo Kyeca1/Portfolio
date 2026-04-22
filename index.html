@@ -26,7 +26,6 @@
       overflow-x: hidden;
     }
 
-    /* ── FIRE CANVAS ── */
     #fire-canvas {
       position: fixed;
       inset: 0;
@@ -37,18 +36,15 @@
       z-index: 0;
     }
 
-    /* dark vignette over fire */
     body::after {
       content: '';
       position: fixed;
       inset: 0;
-      background:
-        radial-gradient(ellipse at center, transparent 30%, rgba(10,10,10,0.85) 100%);
+      background: radial-gradient(ellipse at center, transparent 30%, rgba(10,10,10,0.85) 100%);
       pointer-events: none;
       z-index: 1;
     }
 
-    /* ── LAYOUT ── */
     .page {
       position: relative;
       z-index: 2;
@@ -58,7 +54,6 @@
       align-items: center;
       justify-content: center;
       padding: 60px 24px 80px;
-      gap: 0;
     }
 
     /* ── TOP BAR ── */
@@ -160,7 +155,6 @@
       background: linear-gradient(90deg, transparent, var(--red-dim), transparent);
     }
     .card:first-child::before { display: none; }
-
     .card-num {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 3.5rem;
@@ -183,12 +177,146 @@
       color: var(--muted);
       font-weight: 300;
     }
-    .card-text strong {
+    .card-text strong { color: var(--bone); font-weight: 500; }
+
+    /* ── WORK SECTION ── */
+    .work-section {
+      width: 100%;
+      max-width: 900px;
+      margin-top: 100px;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 1.8s;
+    }
+    .work-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .work-header-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--red-dim), transparent);
+    }
+    .work-header-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      letter-spacing: 0.12em;
       color: var(--bone);
-      font-weight: 500;
+      white-space: nowrap;
+    }
+    .work-header-title span { color: var(--red-bright); }
+
+    /* ── VIDEO GRID ── */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
     }
 
-    /* ── BOTTOM BAR ── */
+    /* ── VIDEO CARD ── */
+    .video-card {
+      border: 1px solid rgba(139,0,0,0.25);
+      background: rgba(10,10,10,0.92);
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .video-card:hover {
+      border-color: var(--red-bright);
+      transform: translateY(-3px);
+    }
+
+    /* video embed wrapper — 16:9 */
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #0d0000;
+      overflow: hidden;
+    }
+    .video-wrap iframe,
+    .video-wrap video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* placeholder shown when no src is set */
+    .video-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(139,0,0,0.04) 0px,
+        rgba(139,0,0,0.04) 1px,
+        transparent 1px,
+        transparent 12px
+      );
+    }
+    .video-placeholder .play-icon {
+      width: 44px; height: 44px;
+      border: 1px solid rgba(139,0,0,0.5);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .play-icon svg { width: 16px; height: 16px; fill: var(--red-dim); margin-left: 3px; }
+    .video-placeholder p {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--red-dim);
+    }
+
+    .video-meta {
+      padding: 16px 20px 20px;
+      border-top: 1px solid rgba(139,0,0,0.15);
+    }
+    .video-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--red-bright);
+      margin-bottom: 6px;
+    }
+    .video-title {
+      font-size: 0.9rem;
+      color: var(--bone);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .video-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.5;
+    }
+
+    /* ── HOW TO ADD VIDEOS — inline tip ── */
+    .video-tip {
+      margin-top: 20px;
+      padding: 16px 20px;
+      border: 1px dashed rgba(139,0,0,0.3);
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .video-tip strong { color: var(--bone); font-weight: 500; }
+    .video-tip code {
+      font-family: monospace;
+      font-size: 0.7rem;
+      background: rgba(139,0,0,0.12);
+      padding: 1px 6px;
+      color: var(--red-bright);
+    }
+
+    /* ── BOTTOM ── */
     .bottom {
       margin-top: 80px;
       text-align: center;
@@ -268,6 +396,103 @@
     </div>
   </div>
 
+  <!-- ══════════════════════════════════════
+       WORK / VIDEOS SECTION
+       To add a video, see the guide below.
+  ══════════════════════════════════════ -->
+  <div class="work-section">
+    <div class="work-header">
+      <div class="work-header-title">My <span>Work</span></div>
+      <div class="work-header-line"></div>
+    </div>
+
+    <div class="video-grid">
+
+      <!-- ─────────────────────────────────────
+           VIDEO CARD 1
+           HOW TO ADD YOUR VIDEO:
+
+           OPTION A — YouTube / Vimeo embed:
+           Replace the <div class="video-placeholder"> block with:
+           <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
+
+           OPTION B — direct video file (MP4 in same folder):
+           Replace the <div class="video-placeholder"> block with:
+           <video src="your-video.mp4" controls></video>
+
+           Then update the title and description below.
+      ──────────────────────────────────────── -->
+      <div class="video-card">
+        <div class="video-wrap">
+          <!-- PASTE YOUR EMBED OR <video> TAG HERE -->
+          <div class="video-placeholder">
+            <div class="play-icon">
+              <svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>
+            </div>
+            <p>Add video here</p>
+          </div>
+        </div>
+        <div class="video-meta">
+          <div class="video-label">Blender · Custom Rig</div>
+          <div class="video-title">Animation Title</div>
+          <div class="video-desc">Short description of this clip.</div>
+        </div>
+      </div>
+
+      <!-- VIDEO CARD 2 -->
+      <div class="video-card">
+        <div class="video-wrap">
+          <div class="video-placeholder">
+            <div class="play-icon">
+              <svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>
+            </div>
+            <p>Add video here</p>
+          </div>
+        </div>
+        <div class="video-meta">
+          <div class="video-label">Blender · Custom Rig</div>
+          <div class="video-title">Animation Title</div>
+          <div class="video-desc">Short description of this clip.</div>
+        </div>
+      </div>
+
+      <!-- VIDEO CARD 3 -->
+      <div class="video-card">
+        <div class="video-wrap">
+          <div class="video-placeholder">
+            <div class="play-icon">
+              <svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>
+            </div>
+            <p>Add video here</p>
+          </div>
+        </div>
+        <div class="video-meta">
+          <div class="video-label">Roblox</div>
+          <div class="video-title">Animation Title</div>
+          <div class="video-desc">Short description of this clip.</div>
+        </div>
+      </div>
+
+      <!-- VIDEO CARD 4 -->
+      <div class="video-card">
+        <div class="video-wrap">
+          <div class="video-placeholder">
+            <div class="play-icon">
+              <svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>
+            </div>
+            <p>Add video here</p>
+          </div>
+        </div>
+        <div class="video-meta">
+          <div class="video-label">Blender · Custom Rig</div>
+          <div class="video-title">Animation Title</div>
+          <div class="video-desc">Short description of this clip.</div>
+        </div>
+      </div>
+
+  </div>
+  <!-- ══ END WORK SECTION ══ -->
+
   <div class="bottom">
     <div class="blender-badge">
       <span>&#9670;</span> Currently animating in Blender only,
@@ -281,7 +506,6 @@
 <script>
   const canvas = document.getElementById('fire-canvas');
   const ctx = canvas.getContext('2d');
-
   let W, H, cols, particles = [];
 
   function resize() {
@@ -311,52 +535,34 @@
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
-
     for (let i = particles.length - 1; i >= 0; i--) {
       const p = particles[i];
       p.x += p.vx + Math.sin(Date.now() * 0.001 + i) * 0.3;
       p.y += p.vy;
       p.life -= p.decay;
       p.size *= 0.993;
-
       if (p.life <= 0 || p.y < H * 0.05) {
         const xBase = Math.floor(i / 4) / cols * W + W / cols / 2;
         particles[i] = new Particle(xBase);
         continue;
       }
-
       const t = 1 - p.life;
       let r, g, b, a;
-      if (t < 0.25) {
-        // white-yellow core
-        r = 255; g = 220; b = 80; a = p.life;
-      } else if (t < 0.55) {
-        // orange
-        r = 255; g = 100; b = 10; a = p.life * 0.9;
-      } else if (t < 0.8) {
-        // deep red
-        r = 180; g = 10; b = 5; a = p.life * 0.7;
-      } else {
-        // dark smoke-red
-        r = 80; g = 0; b = 0; a = p.life * 0.4;
-      }
-
+      if (t < 0.25)      { r=255; g=220; b=80;  a=p.life; }
+      else if (t < 0.55) { r=255; g=100; b=10;  a=p.life*0.9; }
+      else if (t < 0.8)  { r=180; g=10;  b=5;   a=p.life*0.7; }
+      else               { r=80;  g=0;   b=0;   a=p.life*0.4; }
       const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
       grad.addColorStop(0, `rgba(${r},${g},${b},${a})`);
       grad.addColorStop(1, `rgba(${r},${g},${b},0)`);
-
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fillStyle = grad;
       ctx.fill();
     }
-
-    // add more particles over time for density
     if (particles.length < cols * 14) {
-      const xBase = Math.random() * W;
-      particles.push(new Particle(xBase));
+      particles.push(new Particle(Math.random() * W));
     }
-
     requestAnimationFrame(draw);
   }
 
